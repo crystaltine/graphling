@@ -1,0 +1,1 @@
+emcc evaluate.cpp -O3 -s WASM=1 -s EXPORTED_FUNCTIONS='["_eval_chunk", "_malloc", "_free"]' -s EXPORT_ES6=1 -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "getValue"]' --bind -o evaluate.js
