@@ -21,13 +21,14 @@ const material = new three.ShaderMaterial({
 		uniform float cameraPitch;
 		uniform float cameraYFov;
 
-		const vec4 skyColor = vec4(0.4, 0.64, 1.0, 1.0);
+		const vec4 skyColor = vec4(0.38, 0.62, 1.0, 1.0);
 		const vec4 groundColor = vec4(0.3, 0.3, 0.3, 1.0);
 		const vec4 horizonColor = vec4(0.9, 0.95, 1.0, 1.0);
 
     void main() {
 
-			float horizon = scrnHeight * (0.5 - cameraPitch/cameraYFov); // screenspace ypos
+      float tanHalfFOV = tan(cameraYFov/2.);
+			float horizon = scrnHeight/2. * (1. - tan(cameraPitch)/tanHalfFOV);
 			
       if (gl_FragCoord.y > horizon) {
         gl_FragColor = mix(horizonColor, skyColor, clamp((gl_FragCoord.y - horizon)/100., 0., 1.));

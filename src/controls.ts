@@ -22,7 +22,7 @@ export namespace Controls {
 	let movementInfo = {
 		currVelForward: 0.0,
 		currVelRight: 0.0,
-		maxVel: 0.25,	
+		maxVel: 3,	
 		sprinting: false,
 	}
 
@@ -72,17 +72,17 @@ export namespace Controls {
 		controls.moveRight(movementInfo.currVelRight);
 
 		// vertical movement normal
-		if (isKeyDown("shift")) camera.position.add(new three.Vector3(0, -0.1, 0));
-		if (isKeyDown(" ")) camera.position.add(new three.Vector3(0, 0.1, 0));
+		if (isKeyDown("shift")) camera.position.add(new three.Vector3(0, -1, 0));
+		if (isKeyDown(" ")) camera.position.add(new three.Vector3(0, 1, 0));
 	}
 
 	function handleSmoothFOVTransition() {
 		if (movementInfo.sprinting && camera.fov < FOV_SPRINT) {
-			camera.fov += (FOV_SPRINT - FOV_NORMAL)/10;
+			camera.fov += (FOV_SPRINT - camera.fov)/15;
 			bgUniforms.cameraYFov.value = Math.PI * camera.fov / 180;
 			camera.updateProjectionMatrix();
 		} else if (!movementInfo.sprinting && camera.fov > FOV_NORMAL) {
-			camera.fov -= (FOV_SPRINT - FOV_NORMAL)/10;
+			camera.fov -= (camera.fov - FOV_NORMAL)/15;
 			bgUniforms.cameraYFov.value = Math.PI * camera.fov / 180;
 			camera.updateProjectionMatrix();
 		}

@@ -8,10 +8,13 @@ import { Controls } from './controls';
 import { GeometryHandler } from './geometry';
 import { initCalculatorLoop } from './calculator';
 
+import gVertShader from './shaders/vertShader.glsl';
+import gFragShader from './shaders/fragShader.glsl';
+
 const scene = new three.Scene();
 Controls.init(scene);
 
-const renderer = new three.WebGLRenderer();
+const renderer = new three.WebGLRenderer({ antialias: true });
 renderer.domElement.classList.add("THREEJS-MAIN");
 renderer.autoClear = false;
 
@@ -57,10 +60,10 @@ scene.add(icos);
 */
 
 // basic lighting
-const mainLight = new three.DirectionalLight(0xffffff, 3); // new three.HemisphereLight(0xffffff, 0x000000, 1.0);
-mainLight.position.set(0, 100, 0);
+const mainLight = new three.HemisphereLight(0xffffff, 0x000000, 1); // new three.HemisphereLight(0xffffff, 0x000000, 1.0);
+const mainLight2 = new three.DirectionalLight(0xffffff, 1);
 const ambLight = new three.AmbientLight(0xffffff, 0.1);
-scene.add(mainLight, ambLight);
+scene.add(mainLight, mainLight2, ambLight);
 
 // graphing
 
@@ -71,25 +74,34 @@ const graphMaterial = new three.ShaderMaterial({
   side: three.DoubleSide,
 })
 */
-const graphMaterial = new three.MeshLambertMaterial({ color: 0xc0cfd9, side: three.DoubleSide });
-graphMaterial.flatShading = true;
+// const graphMaterial = new three.MeshLambertMaterial({ color: 0xa04049, side: three.DoubleSide });
+// graphMaterial.flatShading = true;
+const graphMaterial = new three.ShaderMaterial({
+  uniforms: {},
+  vertexShader: gVertShader,
+  fragmentShader: gFragShader,
+  side: three.DoubleSide,
+})
+// const graphMaterial2 = new three.MeshLambertMaterial({ color: 0xa04049, side: three.DoubleSide });
+// graphMaterial2.flatShading = true;
 
 const graphMesh = new three.Mesh(GeometryHandler.graphGeometry, graphMaterial);
 scene.add(graphMesh);
 graphMesh.frustumCulled = false;
+// const graphMesh2 = new three.Mesh(GeometryHandler.graphGeometry, graphMaterial2);
+//graphMesh2.position.y -= 0.01;
+// scene.add(graphMesh2);
+// graphMesh2.frustumCulled = false;
 
 // axes
 const AXES_PTS = [
-  [new three.Vector3(0, 0, 0), new three.Vector3(100, 0, 0)],
-  [new three.Vector3(0, 0, 0), new three.Vector3(0, 100, 0)],
-  [new three.Vector3(0, 0, 0), new three.Vector3(0, 0, 100)],
-  [new three.Vector3(0, 0, 0), new three.Vector3(-100, 0, 0)],
-  [new three.Vector3(0, 0, 0), new three.Vector3(0, -100, 0)],
-  [new three.Vector3(0, 0, 0), new three.Vector3(0, 0, -100)]
+  [new three.Vector3(0, 0, 0), new three.Vector3(1000, 0, 0)],
+  [new three.Vector3(0, 0, 0), new three.Vector3(0, 1000, 0)],
+  [new three.Vector3(0, 0, 0), new three.Vector3(0, 0, 1000)],
 ];
-const AXES_COLORS = [0xff0000, 0x00ff00, 0x0000ff, 0xcf40b4, 0x40c89f, 0x8090c9];
+const AXES_COLORS = [0xff0000, 0x00ff00, 0x0000ff];
 for (let i = 0; i < AXES_PTS.length; ++i) {
-  const axesLineMaterial = new three.LineBasicMaterial({color: AXES_COLORS[i]});
+  const axesLineMaterial = new three.LineBasicMaterial({color: AXES_COLORS[i], linewidth: 8});
   const axisGeo = new three.BufferGeometry().setFromPoints(AXES_PTS[i]);
   scene.add(new three.Line(axisGeo, axesLineMaterial));
 }
@@ -100,8 +112,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 });
 
-camera.position.set(0, 50, 0);
-camera.lookAt(new three.Vector3(0,0,0));
+camera.position.set(0, 10, 0);
 
 function animate() {
   bgUniforms.cameraPitch.value = camera.rotation.x;
@@ -111,5 +122,6 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+GeometryHandler.initFacesWorkerLoop();
 initCalculatorLoop();
 renderer.setAnimationLoop(animate);

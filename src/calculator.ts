@@ -15,9 +15,9 @@ export class LODCoordinateGenerator {
 	}
 
 	getNext(): number[] {
-		const xCoord = (this.currCX - 0.5)*this.chunksize + Math.sign(this.currCX) * this.stitchingOffsets[Math.abs(this.currCX)];
-		const yCoord = (this.currCY - 0.5)*this.chunksize + Math.sign(this.currCY) * this.stitchingOffsets[Math.abs(this.currCY)];
-		const ret = [xCoord, xCoord+this.chunksize, yCoord, yCoord+this.chunksize, this.centerResolution-this.currRing];
+		const xCoord = (this.currCX - 0.5)*this.chunksize;// + 0*Math.sign(this.currCX) * this.stitchingOffsets[Math.abs(this.currCX)];
+		const yCoord = (this.currCY - 0.5)*this.chunksize;// + 0*Math.sign(this.currCY) * this.stitchingOffsets[Math.abs(this.currCY)];
+		const ret = [xCoord, xCoord+this.chunksize, yCoord, yCoord+this.chunksize, Math.max(3, this.centerResolution-3*this.currRing)];
 
 		/* 
 		Ring movement format (topright is +x,+y)

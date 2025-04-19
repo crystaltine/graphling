@@ -5,7 +5,15 @@
 extern "C" {
 
 	inline float func(float x, float y) {
-		return (std::sin(x)+std::sin(y));
+		// float sqAbsX = std::sqrt(std::abs(x));
+		// float sqAbsY = std::sqrt(std::abs(y));
+		// return (x*std::sin(sqAbsX)+y*std::sin(sqAbsY))/6;
+
+		return (x*x+y*y) / 100.0;
+
+		// return powf(std::abs(x/10), 1.4) + powf(std::abs(y/10), 1.2);
+
+		// return (x*std::sin(x)+y*std::sin(y))/10;
 	}
 
 	EMSCRIPTEN_KEEPALIVE void eval_chunk(float* outArr, float x1, float x2, float y1, float y2, int resolution) {
