@@ -4,10 +4,14 @@ import './Overlay.css';
 import { XIcon } from 'lucide-react';
 import { toggleOverlay } from './render';
 
+import { EditableMathField } from 'react-mathquill';
+
 export const Overlay = ({visible}: {visible: boolean}) => {
 
 	const containerRef = React.useRef<HTMLDivElement>(null);
 	const bodyRef = React.useRef<HTMLDivElement>(null);
+
+	const [latex, setLatex] = React.useState<string>('')
 
 	const [exitAnimTimeout_bodyElement, setExitAnimTimeout_bodyElement] = React.useState<NodeJS.Timeout | null>(null);
 	const [editAnimTimeout_containerElement, setEditAnimTimeout_containerElement] = React.useState<NodeJS.Timeout | null>(null);
@@ -63,13 +67,20 @@ export const Overlay = ({visible}: {visible: boolean}) => {
 
 	return (
 		<div ref={containerRef} className='overlay-container'>
-			<div ref={bodyRef} className='overlay-body'>
+			<div ref={bodyRef} className='overlay-body' onClick={e => e.stopPropagation()}>
 				<button className='overlay-close-button' onClick={() => toggleOverlay(false)}>
 					<XIcon size="1em" />
 				</button>
 
 				<div className='overlay-section'>
 					<h2>Equation</h2>
+					<EditableMathField
+					className='overlay-equation-input'
+					latex={latex}
+					onChange={(mathField) => {
+						setLatex(mathField.latex())
+					}}/>
+					<p>{latex}</p>
 				</div>
 
 				<div className='overlay-section'>

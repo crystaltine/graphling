@@ -38,6 +38,9 @@ export namespace Controls {
 		}, false);
 
 		window.addEventListener('keydown', (ev: KeyboardEvent) => {
+			if (globalThis.showingOverlay) {
+				return; // no movement while in overlay
+			}
 			documentKeys[ev.key.toLowerCase()] = true;
 		});
 		window.addEventListener('keyup', (ev: KeyboardEvent) => {

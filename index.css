@@ -6,9 +6,13 @@ body {
 	--bg1: 18, 19, 20;
 	--bg2: 24, 25, 26;
 	--fg0: 228, 229, 230;
-	--accent0: 165, 48, 255;
+	--accent0: 135, 98, 245;
 
-	--rounded: 0.4rem;
+	--rounded-xs: 0.2rem;
+	--rounded-sm: 0.4rem;
+
+	--font-normal: Figtree, Inter, system-ui;
+	--font-mono: "Space Mono", "Cascadia Code", "Consolas", monospace;
 
 	background-color: rgb(var(--bg0));
 	color: rgb(var(--fg0));

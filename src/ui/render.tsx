@@ -6,14 +6,18 @@ import { setDebugVisible } from '../debug';
 const navDomNode = document.getElementById('overlay-react-root');
 const navRoot = createRoot(navDomNode); 
 
-let showingOverlay = false;
+declare global {
+	var showingOverlay: boolean;
+}
+
+globalThis.showingOverlay = false;
 
 export function toggleOverlay(to?: boolean) {
-	const stateChanged = to === undefined || showingOverlay !== to;
-	showingOverlay = to ?? !showingOverlay;
+	const stateChanged = to === undefined || globalThis.showingOverlay !== to;
+	globalThis.showingOverlay = to ?? !globalThis.showingOverlay;
 
 	if (stateChanged) {
-		setDebugVisible(!showingOverlay);
-		navRoot.render(<Overlay visible={showingOverlay} />);
+		setDebugVisible(!globalThis.showingOverlay);
+		navRoot.render(<Overlay visible={globalThis.showingOverlay} />);
 	}
 }
