@@ -10,6 +10,7 @@ import { initCalculatorLoop } from './calculator';
 
 import gVertShader from './shaders/vertShader.glsl';
 import gFragShader from './shaders/fragShader.glsl';
+import { toggleOverlay } from './ui/render';
 
 const scene = new three.Scene();
 Controls.init(scene);
@@ -17,9 +18,16 @@ Controls.init(scene);
 const renderer = new three.WebGLRenderer({ antialias: true });
 renderer.domElement.classList.add("THREEJS-MAIN");
 renderer.autoClear = false;
+renderer.setSize(window.innerWidth, window.innerHeight);
 
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild(renderer.domElement);
+const mainContainer = document.getElementById('main-container')!;
+mainContainer.appendChild(renderer.domElement);
+
+document.addEventListener('pointerlockchange', () => {
+  const isLocked = document.pointerLockElement === document.body;
+  console.log(`Pointer lock changed: ${isLocked}`);
+  toggleOverlay(!isLocked);
+});
 
 // stuf
 const LIGHT_DIR = new three.Vector3(0, 1.0, 0);
@@ -78,10 +86,10 @@ const graphMaterial = new three.ShaderMaterial({
 // graphMaterial.flatShading = true;
 const graphMaterial = new three.ShaderMaterial({
   uniforms: {},
-  vertexShader: gVertShader,
-  fragmentShader: gFragShader,
+  vertexShader: gVertShader(),
+  fragmentShader: gFragShader(),
   side: three.DoubleSide,
-})
+});
 // const graphMaterial2 = new three.MeshLambertMaterial({ color: 0xa04049, side: three.DoubleSide });
 // graphMaterial2.flatShading = true;
 

@@ -1,5 +1,5 @@
 {
-  "name": "threejs_prac",
+  "name": "graphling",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "lucide-react": "^0.525.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "three": "^0.175.0"
   },
   "devDependencies": {

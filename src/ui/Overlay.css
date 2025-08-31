@@ -1,0 +1,101 @@
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes fadeout {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+.overlay-container {
+	display: flex;
+	position: absolute;
+	top: 0;
+	left: 0;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+	z-index: 100;
+	background-color: rgba(var(--bg0), 0.5);
+	backdrop-filter: blur(4px);
+	animation-duration: 0.2s;
+	animation-name: fadein;
+}
+.overlay-container.exiting {
+	animation-name: fadeout;
+}
+
+@keyframes overlay-enter {
+	from {
+		transform: translateY(2%) scale(0.95);
+		opacity: 0.2;
+	}
+	to {
+		transform: translateY(0) scale(1);
+		opacity: 1;
+	}
+}
+@keyframes overlay-exit {
+	from {
+		transform: translateY(0) scale(1);
+		opacity: 1;	
+	}
+	to {
+		transform: translateY(-2%) scale(0.95);
+		opacity: 0.2;
+	}
+}
+.overlay-body {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	background-color: rgb(var(--bg1));
+	border: 1px solid rgba(var(--fg0), 0.2);
+	border-radius: var(--rounded);
+	width: max(30%, 30rem);
+	padding: 1rem;
+	margin: 2rem;
+	box-sizing: border-box;
+	animation-duration: 0.2s;
+	animation-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
+	animation-name: overlay-enter;
+	gap: 1rem;
+}
+.overlay-body.exiting {
+	animation-name: overlay-exit;
+}
+
+.overlay-close-button {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0.5rem;
+	right: 0.5rem;
+	aspect-ratio: 1;
+	background-color: transparent;
+	border: 1px solid rgba(var(--fg0), 0.2);
+	border-radius: var(--rounded);
+	color: rgb(var(--fg0));
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+.overlay-close-button:hover {
+	background-color: rgba(var(--fg0), 0.1);
+}
+
+.overlay-section h2 {
+	color: rgb(var(--fg0));
+	font-size: 1.5rem;
+	font-weight: 500;
+	margin: 0;
+	padding-bottom: 0.5rem;
+}

@@ -1,4 +1,4 @@
-export default `
+export default function getFragShader() {return `
 precision mediump float;
 
 // varying vec3 normalVec;
@@ -65,3 +65,4 @@ void main() {
 	// gl_FragColor = vec4(0.5 + vNormal.x/2., 0.5 + vNormal.y/2., 0.5 + vNormal.z/2., 1.0);
 }
 `;
+}

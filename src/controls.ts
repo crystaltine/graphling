@@ -4,6 +4,8 @@ import { camera, FOV_NORMAL, FOV_SPRINT } from "./camera";
 import { bgUniforms } from './background';
 
 export namespace Controls {
+
+	export const SENSITIVITY = 0.5;
 	
 	export const documentKeys = {};
 	document.addEventListener('mousemove', (ev: MouseEvent) => {
@@ -12,10 +14,11 @@ export namespace Controls {
 			ev.stopImmediatePropagation();
 			return;
 		}
-		lastMouseMove.x = ev.movementX;
-		lastMouseMove.y = ev.movementY;
+		lastMouseMove.x = ev.movementX * SENSITIVITY;
+		lastMouseMove.y = ev.movementY * SENSITIVITY;
 	});
 	const controls = new PointerLockControls(camera, document.body);
+	controls.pointerSpeed = SENSITIVITY;
 
 	let lastMouseMove = { x: 0, y: 0 };
 
@@ -29,7 +32,10 @@ export namespace Controls {
 	export function init(scene: three.Scene) {
 		scene.add(controls.object);
 
-		document.addEventListener('click', () => controls.lock(), false);
+		document.addEventListener('click', (ev: MouseEvent) => {
+			// TODO - check that click didnt happen on the overlay/ui. if it did then ignore
+			controls.lock();
+		}, false);
 
 		window.addEventListener('keydown', (ev: KeyboardEvent) => {
 			documentKeys[ev.key.toLowerCase()] = true;

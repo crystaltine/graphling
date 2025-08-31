@@ -28,7 +28,7 @@ extern "C" {
 
 				outArr[3*(r*resolution+c)] = x;
 				outArr[3*(r*resolution+c)+2] = y;
-				outArr[3*(r*resolution+c)+1] = func(x,y);
+				//outArr[3*(r*resolution+c)+1] = func(x,y);
 			}
 		}
 

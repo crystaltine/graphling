@@ -1,0 +1,49 @@
+body {
+	font-family: Figtree, Inter, system-ui;
+	margin: 0;
+
+	--bg0: 13, 14, 15;
+	--bg1: 18, 19, 20;
+	--bg2: 24, 25, 26;
+	--fg0: 228, 229, 230;
+	--accent0: 165, 48, 255;
+
+	--rounded: 0.4rem;
+
+	background-color: rgb(var(--bg0));
+	color: rgb(var(--fg0));
+}
+
+#main-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+}
+
+.THREEJS-MAIN {
+	box-sizing: border-box;
+	z-index: -1;
+}
+
+#debug-text {
+	position: absolute;
+	z-index: 5;
+	top: 0;
+	left: 0;
+	font-family: Cascadia Code, system-ui;
+	font-weight: 500;
+	background-color: #0004;
+	color: #fffa;
+	padding: 4px;
+	display: flex;
+	flex-direction: column;
+}
+
+hr {
+	color: var(--accent-primary);
+	background-color: var(--accent-primary);
+}
